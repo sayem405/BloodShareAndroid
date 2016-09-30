@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Blood Share Android</string>
+    <string name="waiting_otp_msg">Please Wait for a while, security code is sent to you phone</string>
+    <string name="varify">Varify</string>
 </resources>

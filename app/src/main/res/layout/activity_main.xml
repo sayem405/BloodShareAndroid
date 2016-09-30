@@ -5,19 +5,17 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.bloodshare.bloodshareandroid.MainActivity">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:id="@+id/editText" />
 
-    <Button
-        android:text="Button"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button"/>
+        android:gravity="center"
+        android:text="Welcome"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        tools:text="Welcome" />
 </LinearLayout>
