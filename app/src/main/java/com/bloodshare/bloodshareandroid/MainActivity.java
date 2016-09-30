@@ -13,11 +13,5 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppAlarmManager.setAlarm(v.getContext());
-            }
-        });
     }
 }
