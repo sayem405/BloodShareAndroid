@@ -15,7 +15,7 @@ import com.android.volley.toolbox.Volley;
 public class VolleyRequestManager {
 
     private static VolleyRequestManager instance;
-    JsonRequestBuilder jsonRequestBuilder;
+    RequestBuilder requestBuilder;
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
     private Context context;
@@ -67,9 +67,9 @@ public class VolleyRequestManager {
         }
     }
 
-    public JsonRequestBuilder getJsonObjectBuilder(String methodUrl, String json, Response.Listener<String> listener) {
-        jsonRequestBuilder = new JsonRequestBuilder(context, methodUrl, json, listener);
-        jsonRequestBuilder.setVolleyRequestManager(this);
-        return jsonRequestBuilder;
+    public RequestBuilder getRequestBuilder(String methodUrl, String json, Response.Listener<String> listener) {
+        requestBuilder = new RequestBuilder(context, methodUrl, json, listener);
+        requestBuilder.setVolleyRequestManager(this);
+        return requestBuilder;
     }
 }
