@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.IntDef;
+import android.support.v4.util.ArrayMap;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -13,9 +13,12 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.nio.charset.Charset;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Sayem on 4/24/2015.
@@ -37,7 +40,7 @@ public class RequestBuilder {
     private String fullUrl;
     private Response.ErrorListener errorListener;
     private Response.Listener listener;
-    private int method = Request.Method.POST;
+    private int method = Request.Method.GET;
     private String json;
     private Context context;
     private boolean timeOutThrown;
@@ -46,6 +49,7 @@ public class RequestBuilder {
     private ResponseListener responseListener;
     private int requestType = STRING_REQUEST;
     private JSONObject jsonObject;
+    private Map<String, String> params;
 
     public RequestBuilder(Context context, String methodUrl, String json, Response.Listener listener) {
         this.context = context;
@@ -86,6 +90,20 @@ public class RequestBuilder {
         return this;
     }
 
+    public RequestBuilder setParams(ArrayMap<String, String> params) {
+        this.params = params;
+        return this;
+    }
+
+    public RequestBuilder addParam(String key, String value) {
+        if (params == null) {
+            params = new HashMap<>();
+        }
+        params.put(key, value);
+        return this;
+    }
+
+
     public RequestBuilder setTAG(String TAG) {
         this.TAG = TAG;
         return this;
@@ -106,17 +124,38 @@ public class RequestBuilder {
         switch (requestType) {
 
             case JSON_OBJECT_REQUEST:
-                return new JsonObjectRequest(method, fullUrl, jsonObject, listener, errorListener);
-
-            default:
-                return new StringRequest(method, fullUrl, listener, errorListener) {
-                    @Override
-                    public byte[] getBody() throws AuthFailureError {
-                        return json.getBytes(Charset.forName("UTF-8"));
-                    }
+                return new JsonObjectRequest(method, fullUrl, jsonObject, listener, errorListener) {
 
                 };
+
+            default:
+                fullUrl = getUrlForGet(fullUrl);
+                return new StringRequest(method, fullUrl, listener, errorListener);
         }
+    }
+
+    private String getUrlForGet(String fullUrl) {
+        if (params != null && params.size() > 0) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(fullUrl + "?");
+            for (String key : params.keySet()) {
+                Object value = params.get(key);
+                if (value != null) {
+                    try {
+                        value = URLEncoder.encode(String.valueOf(value), "utf-8");
+
+                        if (builder.length() > 0)
+                            builder.append("&");
+                        builder.append(key).append("=").append(value);
+                    } catch (UnsupportedEncodingException e) {
+                    }
+                }
+            }
+            return builder.toString();
+        }
+
+
+        return fullUrl;
     }
 
 
