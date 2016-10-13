@@ -2,4 +2,7 @@
     <string name="app_name">Blood Share Android</string>
     <string name="waiting_otp_msg">Please Wait for a while, security code is sent to you phone</string>
     <string name="varify">Varify</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
