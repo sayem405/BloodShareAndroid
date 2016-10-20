@@ -1,6 +1,5 @@
 package com.bloodshare.bloodshareandroid;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -8,12 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bloodshare.bloodshareandroid.databinding.FragmentMobileCheckBinding;
 import com.bloodshare.bloodshareandroid.databinding.FragmentOldUserVerificationBinding;
-import com.jokerlab.jokerstool.CommonUtil;
 
 
-public class VerifyOldUserFragment extends Fragment implements View.OnClickListener {
+public class VerifyOldUserFragment extends BaseFragment implements View.OnClickListener {
 
 
     private static final String ARG_PARAM1 = "param1";
