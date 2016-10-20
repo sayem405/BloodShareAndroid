@@ -13,7 +13,7 @@
         tools:context="com.bloodshare.bloodshareandroid.VerificationActivity">
 
         <Button
-            android:text="@string/varify"
+            android:text="@string/verify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/editText2"

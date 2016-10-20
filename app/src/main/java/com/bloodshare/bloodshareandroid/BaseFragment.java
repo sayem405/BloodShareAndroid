@@ -1,6 +1,7 @@
 package com.bloodshare.bloodshareandroid;
 
-import android.app.Fragment;
+
+import android.support.v4.app.Fragment;
 
 /**
  * Created by sayem on 10/13/2016.
