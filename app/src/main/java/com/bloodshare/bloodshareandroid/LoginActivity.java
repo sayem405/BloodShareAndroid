@@ -6,6 +6,8 @@ import android.os.Bundle;
 public class LoginActivity extends BaseActivity implements MobileInputFragment.OnFragmentInteractionListener,
         VerifyOldUserFragment.OnFragmentInteractionListener{
 
+    private String mobileNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,8 +20,9 @@ public class LoginActivity extends BaseActivity implements MobileInputFragment.O
 
     @Override
     public void onFragmentInteraction(String mobileNumber, boolean isNew) {
+        this.mobileNumber = mobileNumber;
         if (isNew) {
-            VerifyOldUserFragment verifyOldUserFragment = VerifyOldUserFragment.newInstance();
+            VerifyOldUserFragment verifyOldUserFragment = VerifyOldUserFragment.newInstance(mobileNumber);
             getSupportFragmentManager().beginTransaction().replace(R.id.activity_main,verifyOldUserFragment).addToBackStack(null).commit();
         }
     }
