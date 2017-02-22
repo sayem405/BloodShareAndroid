@@ -3,20 +3,28 @@ package com.bloodshare.bloodshareandroid.helper;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.bloodshare.bloodshareandroid.listeners.NetworkListener;
+import com.android.volley.toolbox.JsonRequest;
+import com.bloodshare.bloodshareandroid.model.Profile;
+import com.jokerlab.volleynet.RequestBuilder;
+import com.jokerlab.volleynet.listeners.NetworkListener;
 import com.bloodshare.bloodshareandroid.model.ServerConstants;
 import com.jokerlab.volleynet.VolleyRequestManager;
 
-import static com.bloodshare.bloodshareandroid.listeners.NetworkResponses.NETWORK_ERROR;
-import static com.bloodshare.bloodshareandroid.listeners.NetworkResponses.RESULT_OK;
+import org.json.JSONObject;
+
+import static com.jokerlab.volleynet.listeners.NetworkResponses.NETWORK_ERROR;
+import static com.jokerlab.volleynet.listeners.NetworkResponses.RESULT_OK;
 
 /**
  * Created by sayem on 10/6/2016.
  */
 
 public class ServerCalls {
+    private static final String TAG = ServerCalls.class.getSimpleName();
+
     public static void checkNewUserAndSendOTP(Context context, final String REQUEST_TAG, final int action,
                                               final String phoneNumber, final NetworkListener listener) {
 
@@ -31,7 +39,7 @@ public class ServerCalls {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(REQUEST_TAG, error.toString());
-                listener.onResponse(action, NETWORK_ERROR, getErrorCode(error), null);
+                listener.onResponse(action, NETWORK_ERROR, ServerCallHelper.getErrorCode(error), null);
             }
         })
                 .setBaseUrl(ServerConstants.BASE_URL)
@@ -39,8 +47,32 @@ public class ServerCalls {
                 .buildJsonRequestAndAddToQueue(REQUEST_TAG);
     }
 
-    private static int getErrorCode(VolleyError error) {
-        return error.networkResponse!= null ? error.networkResponse.statusCode: 0;
-    }
 
+    public static void verifySecurityCode(Context context, final String REQUEST_TAG, final int action,
+                                          String phoneNumber, String otp, final NetworkListener listener) {
+
+        String jsonString = ServerCallHelper.getJsonForVerify(phoneNumber,otp);
+        String url = ServerConstants.CONTROLLER_USER + ServerConstants.METHOD_POST_AUTHENTICATE;
+
+        Log.d(TAG, "verifySecurityCode: json @" + jsonString);
+
+        VolleyRequestManager.getInstance(context).getRequestBuilder(url, jsonString, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(REQUEST_TAG, response.toString());
+                listener.onResponse(action, RESULT_OK, 0, response);
+            }
+        }).setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(REQUEST_TAG, error.toString());
+                listener.onResponse(action, NETWORK_ERROR, ServerCallHelper.getErrorCode(error), null);
+            }
+        })
+                .setMethod(Request.Method.POST)
+                .setRequestType(RequestBuilder.JSON_STRING_REQUEST)
+                .setBaseUrl(ServerConstants.BASE_URL)
+                .buildJsonRequestAndAddToQueue(REQUEST_TAG);
+
+    }
 }

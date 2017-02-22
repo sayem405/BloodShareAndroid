@@ -10,9 +10,12 @@ import android.widget.Toast;
 
 import com.bloodshare.bloodshareandroid.databinding.FragmentMobileCheckBinding;
 import com.bloodshare.bloodshareandroid.helper.ServerCalls;
-import com.bloodshare.bloodshareandroid.listeners.NetworkListener;
-import com.bloodshare.bloodshareandroid.listeners.NetworkResponses;
+import com.jokerlab.jokerstool.ViewUtil;
+import com.jokerlab.volleynet.listeners.NetworkListener;
+import com.jokerlab.volleynet.listeners.NetworkResponses;
 import com.jokerlab.jokerstool.CommonUtil;
+
+import static com.jokerlab.volleynet.listeners.NetworkResponses.*;
 
 
 public class MobileInputFragment extends BaseFragment implements View.OnClickListener, NetworkListener {
@@ -52,6 +55,8 @@ public class MobileInputFragment extends BaseFragment implements View.OnClickLis
 
     public void onButtonPressed(String mobileNumber) {
         this.mobileNumber = mobileNumber;
+        t.progressBar2.setVisibility(View.VISIBLE);
+        ViewUtil.hideKeyboardFrom(getActivity(),t.mobileInputEditText);
         ServerCalls.checkNewUserAndSendOTP(getActivity(), TAG, CHECK_MOBILE_NUMBER, mobileNumber, this);
     }
 
@@ -84,7 +89,8 @@ public class MobileInputFragment extends BaseFragment implements View.OnClickLis
     public void onResponse(int action, @NetworkResponses int networkResponse, int errorCode, Object response) {
         switch (action) {
             case CHECK_MOBILE_NUMBER:
-                if (networkResponse == NetworkResponses.RESULT_OK) {
+                t.progressBar2.setVisibility(View.GONE);
+                if (networkResponse == RESULT_OK) {
                     boolean isNew = Boolean.valueOf((String) response);
                     mListener.onFragmentInteraction(mobileNumber, isNew);
                 } else {

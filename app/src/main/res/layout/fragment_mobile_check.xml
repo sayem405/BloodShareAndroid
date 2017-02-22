@@ -2,24 +2,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.bloodshare.bloodshareandroid.MobileInputFragment">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:inputType="phone"
-            android:id="@+id/mobile_input_editText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <Button
-            android:text="@string/verify"
-            android:id="@+id/verifyButton"
+            <EditText
+                android:id="@+id/mobile_input_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+
+            <Button
+                android:id="@+id/verifyButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/verify" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/progressBar2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:visibility="gone"
+            tools:background="@null"
+            tools:visibility="visible">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+    </FrameLayout>
+
 
 </layout>
