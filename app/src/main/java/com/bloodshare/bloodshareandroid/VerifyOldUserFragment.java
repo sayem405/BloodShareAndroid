@@ -7,25 +7,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bloodshare.bloodshareandroid.databinding.FragmentOldUserVerificationBinding;
+import com.bloodshare.bloodshareandroid.helper.ServerCalls;
+import com.jokerlab.jokerstool.CommonUtil;
+import com.jokerlab.volleynet.listeners.NetworkListener;
+import com.jokerlab.volleynet.listeners.NetworkResponses;
 
 import static android.content.ContentValues.TAG;
+import static com.jokerlab.volleynet.listeners.NetworkResponses.RESULT_OK;
 
 
-public class VerifyOldUserFragment extends BaseFragment implements View.OnClickListener {
+public class VerifyOldUserFragment extends BaseFragment implements View.OnClickListener, NetworkListener {
 
 
     private static final String ARG_PARAM_MOBILE_NUMBER = "mobileNumber";
-    private static final String ARG_PARAM2 = "param2";
-
-
+    private static final int AUTHENTICATE_OTP = 900;
     private String mobileNumber;
 
     private OnFragmentInteractionListener mListener;
 
 
     private FragmentOldUserVerificationBinding binding;
+    private String otp;
 
     public VerifyOldUserFragment() {
 
@@ -57,11 +62,7 @@ public class VerifyOldUserFragment extends BaseFragment implements View.OnClickL
         return binding.getRoot();
     }
 
-    public void onButtonPressed(String mobileNumber) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(mobileNumber, true);
-        }
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -82,9 +83,31 @@ public class VerifyOldUserFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+        String otp = binding.otpEditText.getText().toString();
+        if (CommonUtil.isEmpty(otp)) return;
+
+        onButtonPressed(otp, mobileNumber);
+    }
+
+    public void onButtonPressed(String otp, String number) {
+        this.otp = otp;
+        binding.progressBar.setVisibility(View.VISIBLE);
+        ServerCalls.verifySecurityCode(getActivity(),TAG,AUTHENTICATE_OTP,number,otp,this);
+    }
+
+    @Override
+    public void onResponse(int action, @NetworkResponses int networkResponse, int errorCode, Object response) {
+        binding.progressBar.setVisibility(View.GONE);
+
+        if (networkResponse == RESULT_OK) {
+            boolean authenticated = Boolean.valueOf((String) response);
+            mListener.onFragmentInteraction(authenticated);
+        } else {
+            Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String mobileNumber, boolean isNew);
+        void onFragmentInteraction(boolean authenticated);
     }
 }

@@ -1,8 +1,6 @@
 package com.jokerlab.volleynet;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.IntDef;
 import android.support.v4.util.ArrayMap;
 
@@ -25,13 +23,29 @@ import java.util.Map;
  */
 public class RequestBuilder {
 
+    public RequestBuilder(Context context, String methodUrl, JSONObject jsonObject, Response.Listener<JSONObject> listener) {
+        this.context = context;
+        this.methodUrl = methodUrl;
+        this.jsonObject = jsonObject;
+        this.listener = listener;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({STRING_REQUEST, JSON_OBJECT_REQUEST})
+    @IntDef({STRING_REQUEST, JSON_OBJECT_REQUEST, JSON_STRING_REQUEST})
     public @interface RequestType {
     }
 
-    private static final int STRING_REQUEST = 1;
-    private static final int JSON_OBJECT_REQUEST = 2;
+    public static final int STRING_REQUEST = 1;
+    public static final int JSON_OBJECT_REQUEST = 2;
+    public static final int JSON_STRING_REQUEST = 3;
 
     private Request request;
     private VolleyRequestManager volleyRequestManager;
@@ -43,10 +57,7 @@ public class RequestBuilder {
     private int method = Request.Method.GET;
     private String json;
     private Context context;
-    private boolean timeOutThrown;
-    private Handler timeOutHandler;
     private String TAG;
-    private ResponseListener responseListener;
     private int requestType = STRING_REQUEST;
     private JSONObject jsonObject;
     private Map<String, String> params;
@@ -56,7 +67,6 @@ public class RequestBuilder {
         this.methodUrl = methodUrl;
         this.json = json;
         this.listener = listener;
-        this.timeOutHandler = new Handler(Looper.getMainLooper());
     }
 
 
@@ -74,6 +84,7 @@ public class RequestBuilder {
         this.jsonObject = jsonObject;
         return this;
     }
+
 
     public RequestBuilder setMethod(int method) {
         this.method = method;
@@ -124,9 +135,10 @@ public class RequestBuilder {
         switch (requestType) {
 
             case JSON_OBJECT_REQUEST:
-                return new JsonObjectRequest(method, fullUrl, jsonObject, listener, errorListener) {
+                return new JsonObjectRequest(method, fullUrl, jsonObject, listener, errorListener);
 
-                };
+            case JSON_STRING_REQUEST:
+                return new JsonStringRequest(method, fullUrl, json, listener, errorListener);
 
             default:
                 fullUrl = getUrlForGet(fullUrl);
@@ -175,7 +187,6 @@ public class RequestBuilder {
     }
 
     public void buildJsonRequestAndAddToQueue(String TAG, long timeOut, ResponseListener listener) {
-        this.responseListener = listener;
         setTAG(TAG, timeOut);
         buildJsonRequest();
         volleyRequestManager.addToRequestQueue(request);

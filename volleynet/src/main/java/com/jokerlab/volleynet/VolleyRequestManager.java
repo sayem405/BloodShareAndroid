@@ -9,6 +9,8 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+
 /**
  * Created by Sayem on 4/24/2015.
  */
@@ -69,6 +71,12 @@ public class VolleyRequestManager {
 
     public RequestBuilder getRequestBuilder(String methodUrl, String json, Response.Listener<String> listener) {
         requestBuilder = new RequestBuilder(context, methodUrl, json, listener);
+        requestBuilder.setVolleyRequestManager(this);
+        return requestBuilder;
+    }
+
+    public RequestBuilder getRequestBuilder(String methodUrl, JSONObject jsonObject, Response.Listener<JSONObject> listener) {
+        requestBuilder = new RequestBuilder(context, methodUrl, jsonObject, listener);
         requestBuilder.setVolleyRequestManager(this);
         return requestBuilder;
     }
