@@ -22,6 +22,8 @@ import static com.jokerlab.volleynet.listeners.NetworkResponses.RESULT_OK;
 public class VerifyOldUserFragment extends BaseFragment implements View.OnClickListener, NetworkListener {
 
 
+    public static final String TAG = VerifyOldUserFragment.class.getSimpleName();
+
     private static final String ARG_PARAM_MOBILE_NUMBER = "mobileNumber";
     private static final int AUTHENTICATE_OTP = 900;
     private String mobileNumber;
@@ -100,14 +102,14 @@ public class VerifyOldUserFragment extends BaseFragment implements View.OnClickL
         binding.progressBar.setVisibility(View.GONE);
 
         if (networkResponse == RESULT_OK) {
-            boolean authenticated = Boolean.valueOf((String) response);
-            mListener.onFragmentInteraction(authenticated);
+            String token = (String) response;
+            mListener.onFragmentInteraction(token);
         } else {
             Toast.makeText(getActivity(), R.string.network_error, Toast.LENGTH_SHORT).show();
         }
     }
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(boolean authenticated);
+        void onFragmentInteraction(String token);
     }
 }

@@ -5,6 +5,11 @@
     <string name="mobile_number">Mobile Number</string>
     <string name="network_error">Please check your internet connection</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mobile_input_editText">Mobile Number</string>
+    <string name="str_continue">Continue</string>
+    <string name="name">Name</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 </resources>
