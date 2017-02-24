@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid;
+package com.bloodshare.bloodshareandroid.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

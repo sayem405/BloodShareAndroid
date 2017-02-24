@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid;
+package com.bloodshare.bloodshareandroid.ui.login;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -9,13 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.databinding.FragmentOldUserVerificationBinding;
 import com.bloodshare.bloodshareandroid.helper.ServerCalls;
+import com.bloodshare.bloodshareandroid.ui.base.BaseFragment;
 import com.jokerlab.jokerstool.CommonUtil;
 import com.jokerlab.volleynet.listeners.NetworkListener;
 import com.jokerlab.volleynet.listeners.NetworkResponses;
 
-import static android.content.ContentValues.TAG;
 import static com.jokerlab.volleynet.listeners.NetworkResponses.RESULT_OK;
 
 

@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid;
+package com.bloodshare.bloodshareandroid.ui.base;
 
 import android.support.v7.app.AppCompatActivity;
 

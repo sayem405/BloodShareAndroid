@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid;
+package com.bloodshare.bloodshareandroid.ui.login;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -8,24 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.databinding.FragmentMobileCheckBinding;
 import com.bloodshare.bloodshareandroid.helper.ServerCalls;
+import com.bloodshare.bloodshareandroid.ui.base.BaseFragment;
+import com.jokerlab.jokerstool.CommonUtil;
 import com.jokerlab.jokerstool.ViewUtil;
 import com.jokerlab.volleynet.listeners.NetworkListener;
 import com.jokerlab.volleynet.listeners.NetworkResponses;
-import com.jokerlab.jokerstool.CommonUtil;
 
-import static com.jokerlab.volleynet.listeners.NetworkResponses.*;
+import static com.jokerlab.volleynet.listeners.NetworkResponses.RESULT_OK;
 
 
 public class MobileInputFragment extends BaseFragment implements View.OnClickListener, NetworkListener {
 
 
-    private static final String TAG = MobileInputFragment.class.getSimpleName();
+    public static final String TAG = MobileInputFragment.class.getSimpleName();
     private static final int CHECK_MOBILE_NUMBER = 50;
 
     private OnFragmentInteractionListener mListener;
-    private FragmentMobileCheckBinding t;
+    private FragmentMobileCheckBinding binding;
     private String mobileNumber;
 
     public MobileInputFragment() {
@@ -48,15 +50,15 @@ public class MobileInputFragment extends BaseFragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        t = DataBindingUtil.inflate(inflater, R.layout.fragment_mobile_check, container, false);
-        t.verifyButton.setOnClickListener(this);
-        return t.getRoot();
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mobile_check, container, false);
+        binding.verifyButton.setOnClickListener(this);
+        return binding.getRoot();
     }
 
     public void onButtonPressed(String mobileNumber) {
         this.mobileNumber = mobileNumber;
-        t.progressBar2.setVisibility(View.VISIBLE);
-        ViewUtil.hideKeyboardFrom(getActivity(),t.mobileInputEditText);
+        binding.progressBar2.setVisibility(View.VISIBLE);
+        ViewUtil.hideKeyboardFrom(getActivity(), binding.mobileInputEditText);
         ServerCalls.checkNewUserAndSendOTP(getActivity(), TAG, CHECK_MOBILE_NUMBER, mobileNumber, this);
     }
 
@@ -79,7 +81,7 @@ public class MobileInputFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        String mobileNumber = t.mobileInputEditText.getText().toString();
+        String mobileNumber = binding.mobileInputEditText.getText().toString();
         if (CommonUtil.isEmpty(mobileNumber)) return;
 
         onButtonPressed(mobileNumber);
@@ -89,7 +91,7 @@ public class MobileInputFragment extends BaseFragment implements View.OnClickLis
     public void onResponse(int action, @NetworkResponses int networkResponse, int errorCode, Object response) {
         switch (action) {
             case CHECK_MOBILE_NUMBER:
-                t.progressBar2.setVisibility(View.GONE);
+                binding.progressBar2.setVisibility(View.GONE);
                 if (networkResponse == RESULT_OK) {
                     boolean isNew = Boolean.valueOf((String) response);
                     mListener.onFragmentInteraction(mobileNumber, isNew);

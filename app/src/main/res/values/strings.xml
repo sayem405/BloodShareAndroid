@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Blood Share Android</string>
+    <string name="app_name">BloodShare</string>
     <string name="waiting_otp_msg">Please Wait for a while, security code is sent to you phone</string>
     <string name="verify">Verify</string>
     <string name="mobile_number">Mobile Number</string>
@@ -12,4 +12,10 @@
     <string name="name">Name</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

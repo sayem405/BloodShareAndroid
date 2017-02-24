@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid.model;
+package com.bloodshare.bloodshareandroid.data.db.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -1,8 +1,12 @@
-package com.bloodshare.bloodshareandroid;
+package com.bloodshare.bloodshareandroid.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
+import com.bloodshare.bloodshareandroid.R;
+import com.bloodshare.bloodshareandroid.ui.base.BaseActivity;
+import com.bloodshare.bloodshareandroid.ui.main.MainActivity;
 
 
 public class LoginActivity extends BaseActivity implements MobileInputFragment.OnFragmentInteractionListener,
@@ -18,7 +22,9 @@ public class LoginActivity extends BaseActivity implements MobileInputFragment.O
         setContentView(R.layout.activity_login);
 
         MobileInputFragment mobileInputFragment = MobileInputFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().add(R.id.activity_main, mobileInputFragment).commit();
+        addFragment(mobileInputFragment, MobileInputFragment.TAG);
+        startActivity(new Intent(this, MainActivity.class));
+
     }
 
 

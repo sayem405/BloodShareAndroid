@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid.model;
+package com.bloodshare.bloodshareandroid.utils;
 
 /**
  * Created by sayem on 10/3/2016.

@@ -1,12 +1,7 @@
 package com.bloodshare.bloodshareandroid.helper;
 
-        import android.util.Log;
-
         import com.android.volley.VolleyError;
-        import com.bloodshare.bloodshareandroid.model.Profile;
-
-        import org.json.JSONException;
-        import org.json.JSONObject;
+        import com.bloodshare.bloodshareandroid.data.db.model.Profile;
 
 
 /**
