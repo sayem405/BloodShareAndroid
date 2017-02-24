@@ -48,8 +48,7 @@ public class MobileInputFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mobile_check, container, false);
         binding.verifyButton.setOnClickListener(this);
         return binding.getRoot();

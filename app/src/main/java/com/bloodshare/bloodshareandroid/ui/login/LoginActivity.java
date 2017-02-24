@@ -23,7 +23,7 @@ public class LoginActivity extends BaseActivity implements MobileInputFragment.O
 
         MobileInputFragment mobileInputFragment = MobileInputFragment.newInstance();
         addFragment(mobileInputFragment, MobileInputFragment.TAG);
-        startActivity(new Intent(this, MainActivity.class));
+        //startActivity(new Intent(this, MainActivity.class));
 
     }
 
@@ -51,6 +51,6 @@ public class LoginActivity extends BaseActivity implements MobileInputFragment.O
     }
 
     public void addFragment(Fragment fragment, String tag) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main, fragment).addToBackStack(tag).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).addToBackStack(tag).commit();
     }
 }
