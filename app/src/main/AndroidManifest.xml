@@ -16,7 +16,7 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ui.login.LoginActivity">
+        <activity android:name=".ui.login.phoneLogin.FireBasePhoneAuthentication">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
