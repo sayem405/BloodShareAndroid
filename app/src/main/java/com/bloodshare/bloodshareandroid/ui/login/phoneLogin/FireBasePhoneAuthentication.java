@@ -16,6 +16,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.bloodshare.bloodshareandroid.R;
+import com.bloodshare.bloodshareandroid.data.db.model.Donor;
+import com.bloodshare.bloodshareandroid.data.network.ApiAuthentication;
+import com.bloodshare.bloodshareandroid.data.network.ApiClient;
+import com.bloodshare.bloodshareandroid.data.network.WebServiceCall;
 import com.bloodshare.bloodshareandroid.databinding.ActivityFirebasePhoneAuthenticationBinding;
 import com.bloodshare.bloodshareandroid.ui.base.BaseActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +41,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.TimeUnit;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Created by sayem on 8/18/2017.
  */
@@ -48,6 +56,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
     private static final String KEY_VERIFICATION_PHONE = "KEY_VERIFICATION_PHONE";
     private static final String KEY_STATE = "KEY_STATE";
     private boolean ommitDismissingDialog;
+    private WebServiceCall serviceCall;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({VERIFICATION_NOT_STARTED, VERIFICATION_STARTED, VERIFIED})
@@ -99,6 +108,8 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
                 .replace(R.id.fragment_verify_phone, fragment, VerifyPhoneNumberFragment.TAG)
                 .disallowAddToBackStack()
                 .commit();
+
+        serviceCall = ApiClient.getClient().create(WebServiceCall.class);
 
     }
 
@@ -291,7 +302,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
                     String token = task.getResult().getToken();
                     Log.d(TAG, token);
                     if (!mIsDestroyed)
-                        saveContact(token);
+                        authenticate(token);
                 }
             }
         });
@@ -301,6 +312,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
         completeLoadingDialog(getString(R.string.fui_verified));
 
         // Activity can be recreated before this message is handled
+        Log.d(TAG, "token @" + token);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -363,6 +375,46 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
             mProgressDialog.dismissAllowingStateLoss();
             mProgressDialog = null;
         }
+    }
+
+    private void authenticate(String token) {
+
+
+        serviceCall.authenticate(new ApiAuthentication(token)).enqueue(new Callback<ApiAuthentication>() {
+            @Override
+            public void onResponse(Call<ApiAuthentication> call, Response<ApiAuthentication> response) {
+                if (response.body() != null) {
+                    Log.d(TAG, "access token @" + response.body().userAccessToken);
+
+                    if (response.body().isUserNew) {
+
+                    } else {
+                        getUser(response.body().userAccessToken);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ApiAuthentication> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    public void getUser(String userAccessToken) {
+        serviceCall.getUser("Bearer " + userAccessToken).enqueue(new Callback<Donor>() {
+            @Override
+            public void onResponse(Call<Donor> call, Response<Donor> response) {
+                Log.d(TAG, "user "+ response.body().mobile + response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<Donor> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
     }
 
     @Override
