@@ -6,6 +6,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.bloodshare.bloodshareandroid.AppRepository;
+import com.bloodshare.bloodshareandroid.BloodShareApp;
 import com.bloodshare.bloodshareandroid.data.db.model.UserProfile;
 
 /**
@@ -22,7 +23,7 @@ public class UserProfileViewModel extends AndroidViewModel {
 
     public void init(String userProfileID) {
         if (user != null) return;
-        user = appRepository.getUserProfile(userProfileID);
+        user = ((BloodShareApp)getApplication()).getDb().getAppDao().loadUserByID(userProfileID);
     }
 
     public LiveData<UserProfile> getUser() {

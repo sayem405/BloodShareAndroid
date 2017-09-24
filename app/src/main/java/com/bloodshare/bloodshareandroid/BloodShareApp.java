@@ -12,6 +12,7 @@ import com.bloodshare.bloodshareandroid.data.db.DBNamesFields;
 
 public class BloodShareApp extends Application {
 
+    public static final String TAG = BloodShareApp.class.getSimpleName();
     private AppDatabase db;
 
     @Override

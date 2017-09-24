@@ -399,7 +399,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
 
                     if (response.body().isUserNew) {
                         userAccessToken = response.body().userAccessToken;
-                        Toast.makeText(FireBasePhoneAuthentication.this, "new user .. need implementation", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(FireBasePhoneAuthentication.this, "new user .. need implementation", Toast.LENGTH_SHORT).show();
                         showPersonalInfoFragment();
                         dismissLoadingDialog();
                         //saveContact(null);
@@ -523,11 +523,11 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
     }
 
     private void saveUserAndStartMain(UserProfile response) {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(BloodShareApp.TAG, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(SP_KEY_USER_ID, response.id);
         editor.putString(SP_KEY_ACCESS_TOKEN, userAccessToken);
-        editor.apply();
+        editor.commit();
         ((BloodShareApp) getApplication()).getDb().getAppDao().insert(response);
         MainActivity.startActivity(FireBasePhoneAuthentication.this, response.id);
         finish();

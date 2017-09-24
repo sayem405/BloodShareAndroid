@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.bloodshare.bloodshareandroid.BloodShareApp;
 import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.ui.base.BaseActivity;
 import com.bloodshare.bloodshareandroid.ui.login.phoneLogin.FireBasePhoneAuthentication;
@@ -24,7 +25,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(BloodShareApp.TAG, MODE_PRIVATE);
         String userID = sharedPref.getString(SPKeys.SP_KEY_USER_ID, null);
         String userAccessToken = sharedPref.getString(SPKeys.SP_KEY_ACCESS_TOKEN, null);
         if (TextUtils.isEmpty(userID)) {
@@ -32,6 +33,7 @@ public class LoginActivity extends BaseActivity {
         } else {
             MainActivity.startActivity(this, userID);
         }
+        finish();
     }
 
 }

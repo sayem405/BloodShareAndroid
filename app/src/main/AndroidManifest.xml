@@ -16,7 +16,7 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ui.login.phoneLogin.FireBasePhoneAuthentication">
+        <activity android:name=".ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,6 +30,9 @@
 
         <activity
             android:name=".ui.main.MainActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".ui.login.phoneLogin.FireBasePhoneAuthentication"
             android:theme="@style/AppTheme"></activity>
     </application>
 
