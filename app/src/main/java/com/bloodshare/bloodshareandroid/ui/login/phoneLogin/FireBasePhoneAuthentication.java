@@ -3,6 +3,7 @@ package com.bloodshare.bloodshareandroid.ui.login.phoneLogin;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,13 +16,18 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bloodshare.bloodshareandroid.BloodShareApp;
 import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.data.db.model.Donor;
+import com.bloodshare.bloodshareandroid.data.db.model.DonorLocation;
+import com.bloodshare.bloodshareandroid.data.db.model.UserProfile;
 import com.bloodshare.bloodshareandroid.data.network.ApiAuthentication;
 import com.bloodshare.bloodshareandroid.data.network.ApiClient;
 import com.bloodshare.bloodshareandroid.data.network.WebServiceCall;
 import com.bloodshare.bloodshareandroid.databinding.ActivityFirebasePhoneAuthenticationBinding;
 import com.bloodshare.bloodshareandroid.ui.base.BaseActivity;
+import com.bloodshare.bloodshareandroid.ui.login.PersonalInfoFragment;
+import com.bloodshare.bloodshareandroid.ui.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,6 +41,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.jokerlab.jokerstool.DateUtil;
 import com.jokerlab.volleynet.VolleyRequestManager;
 
 import java.lang.annotation.Retention;
@@ -45,11 +52,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.bloodshare.bloodshareandroid.utils.SPKeys.SP_KEY_ACCESS_TOKEN;
+import static com.bloodshare.bloodshareandroid.utils.SPKeys.SP_KEY_USER_ID;
+
 /**
  * Created by sayem on 8/18/2017.
  */
 
-public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVerificationFragmentListener {
+public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVerificationFragmentListener, PersonalInfoFragment.PersonalInfoFragmentListener {
 
 
     private static final String TAG = FireBasePhoneAuthentication.class.getSimpleName();
@@ -57,6 +67,8 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
     private static final String KEY_STATE = "KEY_STATE";
     private boolean ommitDismissingDialog;
     private WebServiceCall serviceCall;
+    private String userAccessToken;
+
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({VERIFICATION_NOT_STARTED, VERIFICATION_STARTED, VERIFIED})
@@ -108,7 +120,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
                 .replace(R.id.fragment_verify_phone, fragment, VerifyPhoneNumberFragment.TAG)
                 .disallowAddToBackStack()
                 .commit();
-
+        //showPersonalInfoFragment();
         serviceCall = ApiClient.getClient().create(WebServiceCall.class);
 
     }
@@ -308,18 +320,17 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
         });
     }
 
-    private void saveContact(final String token) {
+    private void saveContact(final UserProfile token) {
         completeLoadingDialog(getString(R.string.fui_verified));
 
         // Activity can be recreated before this message is handled
-        Log.d(TAG, "token @" + token);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (!mIsDestroyed) {
                     if (!ommitDismissingDialog)
                         dismissLoadingDialog();
-                    Toast.makeText(FireBasePhoneAuthentication.this, "token @" + token, Toast.LENGTH_SHORT).show();
+                        saveUserAndStartMain(token);
                 }
             }
         }, SHORT_DELAY_MILLIS);
@@ -387,7 +398,11 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
                     Log.d(TAG, "access token @" + response.body().userAccessToken);
 
                     if (response.body().isUserNew) {
-
+                        userAccessToken = response.body().userAccessToken;
+                        Toast.makeText(FireBasePhoneAuthentication.this, "new user .. need implementation", Toast.LENGTH_SHORT).show();
+                        showPersonalInfoFragment();
+                        dismissLoadingDialog();
+                        //saveContact(null);
                     } else {
                         getUser(response.body().userAccessToken);
                     }
@@ -404,17 +419,23 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
 
 
     public void getUser(String userAccessToken) {
-        serviceCall.getUser("Bearer " + userAccessToken).enqueue(new Callback<Donor>() {
+        serviceCall.getUser(getAuthorization(userAccessToken)).enqueue(new Callback<UserProfile>() {
             @Override
-            public void onResponse(Call<Donor> call, Response<Donor> response) {
-                Log.d(TAG, "user "+ response.body().mobile + response.body().toString());
+            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                Log.d(TAG, "user " + response.body().mobile + response.body().toString());
+                saveContact(response.body());
             }
 
             @Override
-            public void onFailure(Call<Donor> call, Throwable t) {
+            public void onFailure(Call<UserProfile> call, Throwable t) {
                 Log.e(TAG, t.toString());
             }
         });
+    }
+
+    @NonNull
+    private String getAuthorization(String userAccessToken) {
+        return "Bearer " + userAccessToken;
     }
 
     @Override
@@ -430,6 +451,20 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
         if (mProgressDialog != null) {
             mProgressDialog.onComplete(content);
         }
+    }
+
+    private void showPersonalInfoFragment() {
+        if (getPersonalInfoFragment() == null) {
+            PersonalInfoFragment fragment = new PersonalInfoFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction().replace(R.id.fragment_verify_phone, fragment, PersonalInfoFragment.TAG).addToBackStack(null);
+            if (!isFinishing() && !mIsDestroyed) {
+                ft.commitAllowingStateLoss();
+            }
+        }
+    }
+
+    public PersonalInfoFragment getPersonalInfoFragment() {
+        return (PersonalInfoFragment) getSupportFragmentManager().findFragmentByTag(PersonalInfoFragment.TAG);
     }
 
     private void showSubmitCodeFragment() {
@@ -460,5 +495,41 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
     public void submitConfirmationCode(String confirmationCode) {
         showLoadingDialog(getString(R.string.fui_verifying));
         signingWithCreds(PhoneAuthProvider.getCredential(mVerificationId, confirmationCode));
+    }
+
+    @Override
+    public void submitPersonalInfo(String name, String DOB, String bloodGroup, String location) {
+        Donor donor = new Donor(name, bloodGroup, DateUtil.getDateByFormat(DOB, DateUtil.DATE_FORMAT_1), new DonorLocation("Manikdi"));
+        updateUser(donor);
+    }
+
+    public void updateUser(final Donor userProfile) {
+        serviceCall.saveUser(getAuthorization(userAccessToken), userProfile).enqueue(new Callback<UserProfile>() {
+            @Override
+            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+
+                if (response.code() ==  200 && response.body() != null) {
+                    saveUserAndStartMain(response.body());
+                } else {
+                    Log.w(TAG, "updateUser @" + response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfile> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void saveUserAndStartMain(UserProfile response) {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(SP_KEY_USER_ID, response.id);
+        editor.putString(SP_KEY_ACCESS_TOKEN, userAccessToken);
+        editor.apply();
+        ((BloodShareApp) getApplication()).getDb().getAppDao().insert(response);
+        MainActivity.startActivity(FireBasePhoneAuthentication.this, response.id);
+        finish();
     }
 }

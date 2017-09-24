@@ -1,4 +1,4 @@
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">BloodShare</string>
     <string name="waiting_otp_msg">Please Wait for a while, security code is sent to you phone</string>
     <string name="verify">Verify</string>
@@ -118,4 +118,25 @@
     <string name="fui_verify_phone_number" translation_description="Button text to submit confirmation code and complete phone verification">Verify Phone Number</string>
     <string name="fui_continue_phone_login" translation_description="Button text to submit phone number and send sms">Continue</string>
     <string name="fui_sms_terms_of_service" translation_description="Fine print warning displayed below Verify Phone Number button">By tapping “%1$s”, an SMS may be sent. Message &amp; data rates may apply.</string>
+    <string name="hint_name">Name i.e.John</string>
+    <string name="date_of_birth">DOB i.e. dd-mm-yyyy</string>
+    <string name="where_do_you_live_in">Where do you live in?</string>
+    <string name="hint_lived_place">i.e. Dhaka</string>
+    <string name="error_give_name">Give Name</string>
+    <string name="error_give_dob">Give Date of Birth</string>
+    <string name="error_give_dob_format">Give date with given format</string>
+    <string name="select_blood_group">Select Blood Group</string>
+
+
+    <string-array name="blood_groups">
+        <item>Blood Group</item>
+        <item>A+ve</item>
+        <item>A-ve</item>
+        <item>B+ve</item>
+        <item>B-ve</item>
+        <item>O+ve</item>
+        <item>O-ve</item>
+        <item>AB+ve</item>
+        <item>AB-ve</item>
+    </string-array>
 </resources>

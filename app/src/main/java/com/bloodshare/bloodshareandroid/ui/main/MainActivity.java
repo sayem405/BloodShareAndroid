@@ -1,6 +1,11 @@
 package com.bloodshare.bloodshareandroid.ui.main;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -12,11 +17,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bloodshare.bloodshareandroid.R;
+import com.bloodshare.bloodshareandroid.data.db.model.UserProfile;
+import com.bloodshare.bloodshareandroid.ui.login.phoneLogin.FireBasePhoneAuthentication;
+import com.bloodshare.bloodshareandroid.viewholder.UserProfileViewModel;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final String TAG = MainActivity.class.getSimpleName();
+    private static final String EXTRA_USER_ID = "user_id";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +37,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        String userID = getIntent().getStringExtra(EXTRA_USER_ID);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +57,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        UserProfileViewModel viewModel = ViewModelProviders.of(this).get(UserProfileViewModel.class);
+        viewModel.init(userID);
+        viewModel.getUser().observe(this, new Observer<UserProfile>() {
+            @Override
+            public void onChanged(@Nullable UserProfile userProfile) {
+                ((TextView) findViewById(R.id.welcomeTextView)).setText("welcome " + userProfile.name);
+            }
+        });
     }
 
     @Override
@@ -99,5 +122,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public static void startActivity(Context context, String userID) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(EXTRA_USER_ID, userID);
+        context.startActivity(intent);
     }
 }
