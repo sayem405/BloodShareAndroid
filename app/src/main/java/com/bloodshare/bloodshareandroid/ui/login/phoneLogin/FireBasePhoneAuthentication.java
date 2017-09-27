@@ -394,7 +394,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
         serviceCall.authenticate(new ApiAuthentication(token)).enqueue(new Callback<ApiAuthentication>() {
             @Override
             public void onResponse(Call<ApiAuthentication> call, Response<ApiAuthentication> response) {
-                if (response.body() != null) {
+                if (response.isSuccessful()) {
                     Log.d(TAG, "access token @" + response.body().userAccessToken);
 
                     if (response.body().isUserNew) {
@@ -508,7 +508,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
 
-                if (response.code() ==  200 && response.body() != null) {
+                if (response.isSuccessful()) {
                     saveUserAndStartMain(response.body());
                 } else {
                     Log.w(TAG, "updateUser @" + response.errorBody().toString());
