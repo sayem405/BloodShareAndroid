@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "694637948473-odrhbckfeu6gfcr73jv939tp27oi84pl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bloodshare.bloodshareandroid",
+            "certificate_hash": "9cd0d1a7e9d7785b8f9afc14350f69edc4fef600"
+          }
+        },
+        {
+          "client_id": "694637948473-08p8t5kmur0b1hc74ln4g8ioatsn6dhm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bloodshare.bloodshareandroid",
+            "certificate_hash": "259352d28b2e9c6b63d3a70c41f89ddd2d511ad5"
+          }
+        },
+        {
           "client_id": "694637948473-mvlm4bvvtifcnf63jmom2ndo7dhdnbr1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -30,6 +46,9 @@
       "api_key": [
         {
           "current_key": "AIzaSyD-V712JRJxa4U_mcI00s4d87KwShhd1IQ"
+        },
+        {
+          "current_key": "AIzaSyCeyOmfdYVC052_HoH5aLdqmtaR2sbI2Lo"
         }
       ],
       "services": {
