@@ -6,10 +6,14 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonRequest;
+import com.bloodshare.bloodshareandroid.model.Profile;
 import com.jokerlab.volleynet.RequestBuilder;
 import com.jokerlab.volleynet.listeners.NetworkListener;
-import com.bloodshare.bloodshareandroid.utils.ServerConstants;
+import com.bloodshare.bloodshareandroid.model.ServerConstants;
 import com.jokerlab.volleynet.VolleyRequestManager;
+
+import org.json.JSONObject;
 
 import static com.jokerlab.volleynet.listeners.NetworkResponses.NETWORK_ERROR;
 import static com.jokerlab.volleynet.listeners.NetworkResponses.RESULT_OK;

@@ -4,8 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-
-import com.bloodshare.bloodshareandroid.receivers.AppBroadcastReceiver;
+import android.os.SystemClock;
 
 /**
  * Created by sayem on 9/22/2016.
