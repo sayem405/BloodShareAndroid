@@ -1,7 +1,8 @@
 package com.bloodshare.bloodshareandroid.data.network;
 
-import com.bloodshare.bloodshareandroid.data.db.model.Donor;
-import com.bloodshare.bloodshareandroid.data.db.model.UserProfile;
+import com.bloodshare.bloodshareandroid.data.model.ApiAuthentication;
+import com.bloodshare.bloodshareandroid.data.model.Donor;
+import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 import com.bloodshare.bloodshareandroid.utils.ServerConstants;
 
 import retrofit2.Call;

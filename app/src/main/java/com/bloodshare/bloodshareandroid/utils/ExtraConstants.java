@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid.ui.login.phoneLogin;
+package com.bloodshare.bloodshareandroid.utils;
 
 /**
  * Created by sayem on 8/18/2017.

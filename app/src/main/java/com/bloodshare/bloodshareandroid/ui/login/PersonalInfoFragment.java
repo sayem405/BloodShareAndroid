@@ -11,11 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.bloodshare.bloodshareandroid.R;
-import com.bloodshare.bloodshareandroid.data.db.model.Donor;
-import com.bloodshare.bloodshareandroid.data.db.model.UserProfile;
 import com.bloodshare.bloodshareandroid.databinding.FragmentPersonalInfoBinding;
 import com.bloodshare.bloodshareandroid.ui.base.BaseFragment;
-import com.bloodshare.bloodshareandroid.ui.login.phoneLogin.PhoneVerificationFragmentListener;
 import com.jokerlab.jokerstool.DateUtil;
 
 /**

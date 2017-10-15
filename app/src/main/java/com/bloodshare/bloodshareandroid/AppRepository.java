@@ -3,7 +3,7 @@ package com.bloodshare.bloodshareandroid;
 import android.arch.lifecycle.LiveData;
 
 import com.bloodshare.bloodshareandroid.data.db.AppDao;
-import com.bloodshare.bloodshareandroid.data.db.model.UserProfile;
+import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

@@ -139,4 +139,5 @@
         <item>AB+ve</item>
         <item>AB-ve</item>
     </string-array>
+    <string name="title_activity_profile">ProfileActivity</string>
 </resources>

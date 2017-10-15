@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid.data.db.model;
+package com.bloodshare.bloodshareandroid.data.model;
 
 import android.arch.persistence.room.Entity;
 

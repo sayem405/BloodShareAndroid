@@ -30,6 +30,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation 'com.google.firebase:firebase-auth:11.4.2'
@@ -62,6 +63,7 @@ dependencies {
     compile project(':jokerstool')
     compile project(':volleynet')
 }
+
 
 
 
