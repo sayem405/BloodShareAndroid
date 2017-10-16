@@ -18,7 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
@@ -41,13 +43,6 @@ public class MainActivity extends AppCompatActivity
 
         final String userID = getIntent().getStringExtra(EXTRA_USER_ID);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ProfileActivity.startActivity(view.getContext(), userID);
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -58,23 +53,32 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View headerLayout = navigationView.getHeaderView(0);
+        headerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileActivity.startActivity(v.getContext(), userID);
+            }
+        });
 
-        ImageView profileView = (ImageView) findViewById(R.id.profileView);
-        /*profileView.setOnClickListener(new View.OnClickListener() {
+        ImageView profileView = (ImageView) headerLayout.findViewById(R.id.profileView);
+        profileView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
-        });*/
+        });
 
-
+        final TextView nameTextView = headerLayout.findViewById(R.id.nameTextView);
+        final TextView phoneTextView = headerLayout.findViewById(R.id.phoneTextView);
 
         UserProfileViewModel viewModel = ViewModelProviders.of(this).get(UserProfileViewModel.class);
         viewModel.init(userID);
         viewModel.getUser().observe(this, new Observer<UserProfile>() {
             @Override
             public void onChanged(@Nullable UserProfile userProfile) {
-                ((TextView) findViewById(R.id.welcomeTextView)).setText("welcome " + userProfile.name);
+                nameTextView.setText(userProfile.name);
+                phoneTextView.setText(userProfile.mobile);
             }
         });
 
@@ -122,7 +126,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+            Toast.makeText(this, "show", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
