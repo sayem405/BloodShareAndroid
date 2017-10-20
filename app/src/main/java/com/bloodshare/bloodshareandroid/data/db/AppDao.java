@@ -6,7 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.bloodshare.bloodshareandroid.data.db.model.UserProfile;
+import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 
 /**
  * Created by sayem on 9/23/2017.
