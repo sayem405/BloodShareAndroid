@@ -10,5 +10,6 @@ public class ExtraConstants {
     public static final String EXTRA_FA_ID = "extra_fam_id";
     public static final String EXTRA_LOCALE = "locale";
     public static final String EXTRA_COUNTRY_CODE = "country_code";
+    public static final String EXTRA_DATE_MILLIS = "date";
 
 }

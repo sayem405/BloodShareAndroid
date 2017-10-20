@@ -6,6 +6,15 @@ android {
     dataBinding {
         enabled true
     }
+    signingConfigs {
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('/keys/debug.keystore')
+            storePassword 'android'
+        }
+    }
+
     defaultConfig {
         applicationId "com.bloodshare.bloodshareandroid"
         minSdkVersion 17
