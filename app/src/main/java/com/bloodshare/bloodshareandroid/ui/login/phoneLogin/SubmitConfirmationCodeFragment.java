@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.databinding.FragmentConfirmationCodeLayoutBinding;
 import com.bloodshare.bloodshareandroid.ui.base.BaseFragment;
+import com.bloodshare.bloodshareandroid.utils.ExtraConstants;
 
 
 /**

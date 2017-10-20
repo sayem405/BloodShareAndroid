@@ -10,4 +10,4 @@
 /.idea/
 app/release/app-release.apk
 app/release/output.json
-app/schemas/com.bloodshare.bloodshareandroid.data.db.AppDatabase/1.json
+app/schemas/com.bloodshare.bloodshareandroid.model.db.AppDatabase/1.json

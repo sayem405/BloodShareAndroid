@@ -12,11 +12,12 @@ import android.view.ViewGroup;
 import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.databinding.FragmentVerifyPhoneBinding;
 import com.bloodshare.bloodshareandroid.ui.base.BaseFragment;
+import com.bloodshare.bloodshareandroid.utils.ExtraConstants;
 
 import java.util.Locale;
 
-import static com.bloodshare.bloodshareandroid.ui.login.phoneLogin.ExtraConstants.EXTRA_COUNTRY_CODE;
-import static com.bloodshare.bloodshareandroid.ui.login.phoneLogin.ExtraConstants.EXTRA_LOCALE;
+import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_COUNTRY_CODE;
+import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_LOCALE;
 
 /**
  * Created by sayem on 8/18/2017.

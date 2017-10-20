@@ -1,7 +1,7 @@
 package com.bloodshare.bloodshareandroid.helper;
 
         import com.android.volley.VolleyError;
-        import com.bloodshare.bloodshareandroid.data.db.model.Profile;
+        import com.bloodshare.bloodshareandroid.data.model.Profile;
 
 
 /**

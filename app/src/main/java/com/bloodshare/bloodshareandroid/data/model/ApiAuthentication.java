@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid.data.network;
+package com.bloodshare.bloodshareandroid.data.model;
 
 import com.google.gson.annotations.SerializedName;
 

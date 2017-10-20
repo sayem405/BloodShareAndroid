@@ -3,11 +3,10 @@ package com.bloodshare.bloodshareandroid.viewholder;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
 
 import com.bloodshare.bloodshareandroid.AppRepository;
 import com.bloodshare.bloodshareandroid.BloodShareApp;
-import com.bloodshare.bloodshareandroid.data.db.model.UserProfile;
+import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 
 /**
  * Created by sayem on 9/23/2017.

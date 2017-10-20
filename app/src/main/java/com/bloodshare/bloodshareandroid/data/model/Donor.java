@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid.data.db.model;
+package com.bloodshare.bloodshareandroid.data.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
@@ -7,7 +7,6 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.bloodshare.bloodshareandroid.data.db.DBNamesFields;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 import java.util.UUID;
