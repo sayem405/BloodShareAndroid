@@ -141,4 +141,5 @@
     </string-array>
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="update">Update</string>
+    <string name="error_give_location">give location</string>
 </resources>
