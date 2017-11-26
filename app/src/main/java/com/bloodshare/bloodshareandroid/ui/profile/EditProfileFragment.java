@@ -19,6 +19,7 @@ import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 import com.bloodshare.bloodshareandroid.databinding.FragmentEditProfileBinding;
 import com.bloodshare.bloodshareandroid.ui.common.CustomDatePicker;
 import com.bloodshare.bloodshareandroid.viewholder.UserProfileViewModel;
+import com.jokerlab.jokerstool.DateUtil;
 
 import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_PROFILE_ID;
 
@@ -29,6 +30,7 @@ public class EditProfileFragment extends Fragment {
     private String profileID;
     private FragmentEditProfileBinding binding;
     private UserProfileViewModel viewModel;
+    private UserProfile userProfile;
 
     public EditProfileFragment() {
 
@@ -85,6 +87,7 @@ public class EditProfileFragment extends Fragment {
         viewModel.getUser().observe(this, new Observer<UserProfile>() {
             @Override
             public void onChanged(@Nullable UserProfile userProfile) {
+                EditProfileFragment.this.userProfile = userProfile;
                 binding.setUserProfile(userProfile);
                 //binding.spinner.setSelection(;
                 binding.executePendingBindings();
@@ -117,5 +120,13 @@ public class EditProfileFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    public UserProfile getUpdatedUserProfile() {
+        userProfile.name = binding.nameEditText.getText().toString();
+        userProfile.bloodGroup = getResources().getStringArray(R.array.blood_groups)[binding.spinner.getSelectedItemPosition()];
+        userProfile.birthDate = DateUtil.getDateByFormat(binding.dobEditText.getText().toString(), DateUtil.DATE_FORMAT_1);
+
+        return userProfile;
     }
 }

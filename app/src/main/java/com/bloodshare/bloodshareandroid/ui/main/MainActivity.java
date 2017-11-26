@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,16 +25,27 @@ import android.widget.QuickContactBadge;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bloodshare.bloodshareandroid.BloodShareApp;
 import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
+import com.bloodshare.bloodshareandroid.data.network.ApiClient;
+import com.bloodshare.bloodshareandroid.data.network.WebServiceCall;
+import com.bloodshare.bloodshareandroid.ui.login.LoginActivity;
 import com.bloodshare.bloodshareandroid.ui.profile.ProfileActivity;
+import com.bloodshare.bloodshareandroid.utils.SPKeys;
 import com.bloodshare.bloodshareandroid.viewholder.UserProfileViewModel;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private static final String EXTRA_USER_ID = "user_id";
+
+    private UserProfile userProfile;
 
 
     @Override
@@ -69,6 +83,40 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        findViewById(R.id.deleteUser).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final SharedPreferences sharedPref = getSharedPreferences(BloodShareApp.TAG, MODE_PRIVATE);
+                WebServiceCall serviceCall = ApiClient.getClient().create(WebServiceCall.class);
+                String userAccessToken = sharedPref.getString(SPKeys.SP_KEY_ACCESS_TOKEN, null);
+                if (TextUtils.isEmpty(userAccessToken)) {
+                    Log.w(TAG, "user access token is empty");
+                } else {
+                    Log.d(TAG, "user access token @" + userAccessToken);
+                }
+                serviceCall.deleteUser(ApiClient.getAuthorization(userAccessToken)).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful()) {
+                            sharedPref.edit().remove(SPKeys.SP_KEY_ACCESS_TOKEN).apply();
+                            sharedPref.edit().remove(SPKeys.SP_KEY_USER_ID).apply();
+                            Log.d(TAG, "deleted");
+                            finish();
+                            LoginActivity.startLoginActivity(MainActivity.this);
+                        } else {
+                            Toast.makeText(MainActivity.this, response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.e(TAG, t.toString());
+                    }
+                });
+
+            }
+        });
+
         final TextView nameTextView = headerLayout.findViewById(R.id.nameTextView);
         final TextView phoneTextView = headerLayout.findViewById(R.id.phoneTextView);
 
@@ -77,6 +125,7 @@ public class MainActivity extends AppCompatActivity
         viewModel.getUser().observe(this, new Observer<UserProfile>() {
             @Override
             public void onChanged(@Nullable UserProfile userProfile) {
+                MainActivity.this.userProfile = userProfile;
                 nameTextView.setText(userProfile.name);
                 phoneTextView.setText(userProfile.mobile);
             }

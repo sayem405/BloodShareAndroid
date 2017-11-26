@@ -48,6 +48,7 @@
             app:layout_constraintTop_toTopOf="@+id/dobPickerImageView">
 
             <android.support.design.widget.TextInputEditText
+                app:dob="@{userProfile.birthDate}"
                 android:id="@+id/dobEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
+            app:bloodGroup="@{userProfile.bloodGroup}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameLayout" />
 
@@ -88,6 +90,7 @@
             app:srcCompat="@drawable/ic_face_black_24dp" />
 
         <Button
+            android:onClick="updateUserClicked"
             android:id="@+id/updateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
