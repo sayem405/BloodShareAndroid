@@ -15,17 +15,16 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bloodshare.bloodshareandroid.BloodShareApp;
 import com.bloodshare.bloodshareandroid.R;
+import com.bloodshare.bloodshareandroid.data.model.ApiAuthentication;
 import com.bloodshare.bloodshareandroid.data.model.Donor;
 import com.bloodshare.bloodshareandroid.data.model.DonorLocation;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
-import com.bloodshare.bloodshareandroid.databinding.ActivityFirebasePhoneAuthenticationBinding;
-import com.bloodshare.bloodshareandroid.data.model.ApiAuthentication;
 import com.bloodshare.bloodshareandroid.data.network.ApiClient;
 import com.bloodshare.bloodshareandroid.data.network.WebServiceCall;
+import com.bloodshare.bloodshareandroid.databinding.ActivityFirebasePhoneAuthenticationBinding;
 import com.bloodshare.bloodshareandroid.ui.base.BaseActivity;
 import com.bloodshare.bloodshareandroid.ui.login.PersonalInfoFragment;
 import com.bloodshare.bloodshareandroid.ui.main.MainActivity;
@@ -48,7 +47,6 @@ import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.jokerlab.jokerstool.DateUtil;
-import com.jokerlab.volleynet.VolleyRequestManager;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -464,7 +462,6 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
         mIsDestroyed = true;
         mHandler.removeCallbacksAndMessages(null);
         dismissLoadingDialog();
-        VolleyRequestManager.getInstance(this).cancelRequest(TAG);
         super.onDestroy();
     }
 
