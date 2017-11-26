@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid;
+package com.bloodshare.bloodshareandroid.data;
 
 import android.arch.lifecycle.LiveData;
 

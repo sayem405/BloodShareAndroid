@@ -18,7 +18,7 @@ import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 import com.bloodshare.bloodshareandroid.databinding.FragmentEditProfileBinding;
 import com.bloodshare.bloodshareandroid.ui.common.CustomDatePicker;
-import com.bloodshare.bloodshareandroid.viewholder.UserProfileViewModel;
+import com.bloodshare.bloodshareandroid.viewmodel.UserProfileViewModel;
 import com.jokerlab.jokerstool.DateUtil;
 
 import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_PROFILE_ID;

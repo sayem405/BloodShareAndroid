@@ -18,4 +18,5 @@ public class DBNamesFields {
     public static final String COLUMN_LONGITUDE = "longitude";
     public static final String COLUMN_DOB = "date_of_birth";
     public static final String COLUMN_LOCATION = "location";
+    public static final String COLUMN_GENDER = "gender";
 }

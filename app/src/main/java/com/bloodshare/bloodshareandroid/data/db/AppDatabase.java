@@ -4,8 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 
-import com.bloodshare.bloodshareandroid.AppConstants;
-import com.bloodshare.bloodshareandroid.data.model.Donor;
+import com.bloodshare.bloodshareandroid.data.AppConstants;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 
 /**

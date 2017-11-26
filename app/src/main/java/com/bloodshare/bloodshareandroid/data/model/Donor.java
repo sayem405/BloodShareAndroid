@@ -39,6 +39,9 @@ public class Donor {
     @ColumnInfo(name = DBNamesFields.COLUMN_DOB)
     public Date birthDate;
 
+    @ColumnInfo(name = DBNamesFields.COLUMN_GENDER)
+    public int gender;
+
 
     public Donor() {
         id = UUID.randomUUID().toString();

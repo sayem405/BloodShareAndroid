@@ -1,10 +1,10 @@
-package com.bloodshare.bloodshareandroid.viewholder;
+package com.bloodshare.bloodshareandroid.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 
-import com.bloodshare.bloodshareandroid.AppRepository;
+import com.bloodshare.bloodshareandroid.data.AppRepository;
 import com.bloodshare.bloodshareandroid.BloodShareApp;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 
