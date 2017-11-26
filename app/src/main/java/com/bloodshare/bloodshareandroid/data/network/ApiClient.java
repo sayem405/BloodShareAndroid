@@ -1,5 +1,7 @@
 package com.bloodshare.bloodshareandroid.data.network;
 
+import android.support.annotation.NonNull;
+
 import com.bloodshare.bloodshareandroid.utils.ServerConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,5 +32,10 @@ public class ApiClient {
                     .build();
         }
         return retrofit;
+    }
+
+    @NonNull
+    public static String getAuthorization(String userAccessToken) {
+        return "Bearer " + userAccessToken;
     }
 }

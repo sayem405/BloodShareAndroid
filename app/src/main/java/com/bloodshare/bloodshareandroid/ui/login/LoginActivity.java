@@ -36,4 +36,9 @@ public class LoginActivity extends BaseActivity {
         finish();
     }
 
+
+    public static void startLoginActivity(Context context) {
+        context.startActivity(new Intent(context, LoginActivity.class));
+    }
+
 }

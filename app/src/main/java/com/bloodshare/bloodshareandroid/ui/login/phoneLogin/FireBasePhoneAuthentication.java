@@ -417,8 +417,8 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
                 if (response.isSuccessful()) {
                     Log.d(TAG, "access token @" + response.body().userAccessToken);
 
+                    userAccessToken = response.body().userAccessToken;
                     if (response.body().isUserNew) {
-                        userAccessToken = response.body().userAccessToken;
                         //Toast.makeText(FireBasePhoneAuthentication.this, "new user .. need implementation", Toast.LENGTH_SHORT).show();
                         showPersonalInfoFragment();
                         dismissLoadingDialog();
@@ -439,6 +439,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
 
 
     public void getUser(String userAccessToken) {
+        Log.d(TAG, "user access token @" + userAccessToken);
         serviceCall.getUser(getAuthorization(userAccessToken)).enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
@@ -455,7 +456,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
 
     @NonNull
     private String getAuthorization(String userAccessToken) {
-        return "Bearer " + userAccessToken;
+        return ApiClient.getAuthorization(userAccessToken);
     }
 
     @Override
@@ -536,6 +537,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
     }
 
     public void updateUser(final Donor userProfile) {
+
         serviceCall.saveUser(getAuthorization(userAccessToken), userProfile).enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
@@ -558,8 +560,9 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
         SharedPreferences sharedPref = getSharedPreferences(BloodShareApp.TAG, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(SP_KEY_USER_ID, response.id);
+        editor.apply();
         editor.putString(SP_KEY_ACCESS_TOKEN, userAccessToken);
-        editor.commit();
+        editor.apply();
         ((BloodShareApp) getApplication()).getDb().getAppDao().insert(response);
         MainActivity.startActivity(FireBasePhoneAuthentication.this, response.id);
         finish();
