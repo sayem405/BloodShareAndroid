@@ -44,8 +44,9 @@
             android:layout_marginTop="16dp"
             android:text="@string/where_do_you_live_in" />
 
-        <AutoCompleteTextView
-            android:id="@+id/locationAutoCompleteTextView"
+        <EditText
+            android:inputType="none"
+            android:id="@+id/locationEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_lived_place" />

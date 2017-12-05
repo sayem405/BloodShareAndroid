@@ -14,20 +14,25 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import com.bloodshare.bloodshareandroid.BloodShareApp;
 import com.bloodshare.bloodshareandroid.R;
-import com.bloodshare.bloodshareandroid.data.db.model.Donor;
-import com.bloodshare.bloodshareandroid.data.db.model.DonorLocation;
-import com.bloodshare.bloodshareandroid.data.db.model.UserProfile;
-import com.bloodshare.bloodshareandroid.data.network.ApiAuthentication;
+import com.bloodshare.bloodshareandroid.data.model.ApiAuthentication;
+import com.bloodshare.bloodshareandroid.data.model.Donor;
+import com.bloodshare.bloodshareandroid.data.model.DonorLocation;
+import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 import com.bloodshare.bloodshareandroid.data.network.ApiClient;
 import com.bloodshare.bloodshareandroid.data.network.WebServiceCall;
 import com.bloodshare.bloodshareandroid.databinding.ActivityFirebasePhoneAuthenticationBinding;
 import com.bloodshare.bloodshareandroid.ui.base.BaseActivity;
 import com.bloodshare.bloodshareandroid.ui.login.PersonalInfoFragment;
 import com.bloodshare.bloodshareandroid.ui.main.MainActivity;
+import com.bloodshare.bloodshareandroid.utils.ExtraConstants;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,7 +47,6 @@ import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.jokerlab.jokerstool.DateUtil;
-import com.jokerlab.volleynet.VolleyRequestManager;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -63,6 +67,9 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
 
 
     private static final String TAG = FireBasePhoneAuthentication.class.getSimpleName();
+
+    private static final int REQUEST_CODE_LOCATION = 235;
+
     private static final String KEY_VERIFICATION_PHONE = "KEY_VERIFICATION_PHONE";
     private static final String KEY_STATE = "KEY_STATE";
     private boolean ommitDismissingDialog;
@@ -167,7 +174,16 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, data);
+                if (place != null) {
+                    getPersonalInfoFragment().setLocation(place);
+                } else {
+
+                }
+            }
+        }
     }
 
     @Override
@@ -389,7 +405,9 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
     }
 
     private void authenticate(String token) {
-
+        if (serviceCall == null) {
+            serviceCall = ApiClient.getClient().create(WebServiceCall.class);
+        }
 
         serviceCall.authenticate(new ApiAuthentication(token)).enqueue(new Callback<ApiAuthentication>() {
             @Override
@@ -397,8 +415,8 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
                 if (response.isSuccessful()) {
                     Log.d(TAG, "access token @" + response.body().userAccessToken);
 
+                    userAccessToken = response.body().userAccessToken;
                     if (response.body().isUserNew) {
-                        userAccessToken = response.body().userAccessToken;
                         //Toast.makeText(FireBasePhoneAuthentication.this, "new user .. need implementation", Toast.LENGTH_SHORT).show();
                         showPersonalInfoFragment();
                         dismissLoadingDialog();
@@ -419,6 +437,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
 
 
     public void getUser(String userAccessToken) {
+        Log.d(TAG, "user access token @" + userAccessToken);
         serviceCall.getUser(getAuthorization(userAccessToken)).enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
@@ -435,7 +454,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
 
     @NonNull
     private String getAuthorization(String userAccessToken) {
-        return "Bearer " + userAccessToken;
+        return ApiClient.getAuthorization(userAccessToken);
     }
 
     @Override
@@ -443,7 +462,6 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
         mIsDestroyed = true;
         mHandler.removeCallbacksAndMessages(null);
         dismissLoadingDialog();
-        VolleyRequestManager.getInstance(this).cancelRequest(TAG);
         super.onDestroy();
     }
 
@@ -498,12 +516,25 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
     }
 
     @Override
-    public void submitPersonalInfo(String name, String DOB, String bloodGroup, String location) {
-        Donor donor = new Donor(name, bloodGroup, DateUtil.getDateByFormat(DOB, DateUtil.DATE_FORMAT_1), new DonorLocation("Manikdi"));
+    public void submitPersonalInfo(String name, String DOB, String bloodGroup, Place place) {
+        Donor donor = new Donor(name, bloodGroup, DateUtil.getDateByFormat(DOB, DateUtil.DATE_FORMAT_1), new DonorLocation(place));
         updateUser(donor);
     }
 
+    @Override
+    public void locationClicked(View view) {
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        try {
+            startActivityForResult(builder.build(this), REQUEST_CODE_LOCATION);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void updateUser(final Donor userProfile) {
+
         serviceCall.saveUser(getAuthorization(userAccessToken), userProfile).enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
@@ -526,8 +557,9 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
         SharedPreferences sharedPref = getSharedPreferences(BloodShareApp.TAG, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(SP_KEY_USER_ID, response.id);
+        editor.apply();
         editor.putString(SP_KEY_ACCESS_TOKEN, userAccessToken);
-        editor.commit();
+        editor.apply();
         ((BloodShareApp) getApplication()).getDb().getAppDao().insert(response);
         MainActivity.startActivity(FireBasePhoneAuthentication.this, response.id);
         finish();

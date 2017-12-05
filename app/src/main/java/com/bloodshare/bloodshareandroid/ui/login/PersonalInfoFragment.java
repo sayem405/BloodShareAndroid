@@ -7,15 +7,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.bloodshare.bloodshareandroid.R;
-import com.bloodshare.bloodshareandroid.data.db.model.Donor;
-import com.bloodshare.bloodshareandroid.data.db.model.UserProfile;
 import com.bloodshare.bloodshareandroid.databinding.FragmentPersonalInfoBinding;
 import com.bloodshare.bloodshareandroid.ui.base.BaseFragment;
-import com.bloodshare.bloodshareandroid.ui.login.phoneLogin.PhoneVerificationFragmentListener;
+import com.google.android.gms.location.places.Place;
 import com.jokerlab.jokerstool.DateUtil;
 
 /**
@@ -28,6 +27,7 @@ public class PersonalInfoFragment extends BaseFragment implements View.OnClickLi
 
     private FragmentPersonalInfoBinding binding;
     private PersonalInfoFragmentListener listener;
+    private Place place;
 
     @Nullable
     @Override
@@ -35,6 +35,7 @@ public class PersonalInfoFragment extends BaseFragment implements View.OnClickLi
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_personal_info, container, false);
         setUpGroupSpinner();
         binding.saveButton.setOnClickListener(this);
+        binding.locationEditText.setOnClickListener(this);
         return binding.getRoot();
     }
 
@@ -43,6 +44,19 @@ public class PersonalInfoFragment extends BaseFragment implements View.OnClickLi
                 R.array.blood_groups, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.bloodSpinner.setAdapter(adapter);
+        binding.bloodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                if (position > 0) {
+                    binding.locationEditText.requestFocus();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     @Override
@@ -53,8 +67,10 @@ public class PersonalInfoFragment extends BaseFragment implements View.OnClickLi
                 String name = binding.nameEditText.getText().toString();
                 String dob = binding.DOBEditText.getText().toString();
                 String bloodGroup = getResources().getStringArray(R.array.blood_groups)[binding.bloodSpinner.getSelectedItemPosition()];
-                listener.submitPersonalInfo(name, dob, bloodGroup, null);
+                listener.submitPersonalInfo(name, dob, bloodGroup, place);
             }
+        } else if (view.getId() == binding.locationEditText.getId()) {
+            if (listener != null) listener.locationClicked(view);
         }
     }
 
@@ -82,12 +98,28 @@ public class PersonalInfoFragment extends BaseFragment implements View.OnClickLi
             allInputGiven = false;
         }
 
+        if (place == null) {
+            binding.locationEditText.setError(getString(R.string.error_give_location));
+            allInputGiven = false;
+        } else {
+            binding.locationEditText.setError(null);
+        }
+
 
         return allInputGiven;
     }
 
     public interface PersonalInfoFragmentListener {
-        void submitPersonalInfo(String name, String DOB, String bloodGroup, String location);
+        void submitPersonalInfo(String name, String DOB, String bloodGroup, Place place);
+
+        void locationClicked(View view);
+    }
+
+    public void setLocation(Place place) {
+        this.place = place;
+        if (binding != null) {
+            binding.locationEditText.setText(place.getName());
+        }
     }
 
     @Override

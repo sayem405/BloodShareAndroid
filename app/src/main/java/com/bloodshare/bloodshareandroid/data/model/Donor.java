@@ -1,23 +1,26 @@
-package com.bloodshare.bloodshareandroid.data.db.model;
+package com.bloodshare.bloodshareandroid.data.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.bloodshare.bloodshareandroid.data.db.DBNamesFields;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+
 /**
  * Created by sayem on 9/23/2017.
  */
-@Entity(tableName = DBNamesFields.TABLE_DONOR)
+
 public class Donor {
     @PrimaryKey
+    @NonNull
     @ColumnInfo(name = DBNamesFields.COLUMN_ID)
     public String id;
 
@@ -33,8 +36,7 @@ public class Donor {
     @Embedded
     public DonorLocation donorLocation;
 
-    /*@ColumnInfo(name = DBNamesFields.COLUMN_DOB)*/
-    @Ignore
+    @ColumnInfo(name = DBNamesFields.COLUMN_DOB)
     public Date birthDate;
 
 

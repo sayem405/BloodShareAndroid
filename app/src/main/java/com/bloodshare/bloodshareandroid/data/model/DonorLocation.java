@@ -1,10 +1,12 @@
-package com.bloodshare.bloodshareandroid.data.db.model;
+package com.bloodshare.bloodshareandroid.data.model;
 
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Ignore;
 
 import com.bloodshare.bloodshareandroid.data.db.DBNamesFields;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.maps.model.LatLng;
 
 public class DonorLocation {
 
@@ -21,7 +23,9 @@ public class DonorLocation {
     }
 
     @Ignore
-    public DonorLocation(String location) {
-        this.location = location;
+    public DonorLocation(Place place) {
+        this.location = place.getName().toString();
+        this.latitude = place.getLatLng().latitude;
+        this.longitude = place.getLatLng().longitude;
     }
 }

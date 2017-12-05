@@ -32,4 +32,9 @@ public class DateUtil {
             return null;
         }
     }
+
+    public static String getDateByFormat(Date date, String dateFormat) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.US);
+        return simpleDateFormat.format(date);
+    }
 }

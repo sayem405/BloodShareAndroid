@@ -1,1 +1,1 @@
-include ':app', ':volleynet', ':jokerstool'
+include ':app', ':jokerstool'
