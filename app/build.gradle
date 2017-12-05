@@ -19,8 +19,8 @@ android {
         applicationId "com.bloodshare.bloodshareandroid"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.0"
+        versionCode 4
+        versionName "0.4"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
