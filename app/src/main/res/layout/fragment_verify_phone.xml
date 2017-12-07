@@ -1,46 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
-        style="@style/FirebaseUI.WrapperStyle"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.bloodshare.bloodshareandroid.ui.login.phoneLogin.CountryListSpinner
             android:id="@+id/country_list"
-            style="@style/FirebaseUI.CountrySpinner" />
+            style="@style/FirebaseUI.CountrySpinner"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
         <EditText
             android:id="@+id/phone_number"
-            style="@style/FirebaseUI.TextInputEditText.PhoneField"
-            android:layout_alignBottom="@id/country_list"
-            android:layout_toEndOf="@id/country_list"
-            android:layout_toRightOf="@id/country_list">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:inputType="phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/country_list"
+            app:layout_constraintTop_toTopOf="@+id/guideline4">
 
             <requestFocus />
         </EditText>
 
         <TextView
             android:id="@+id/phone_number_error"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/phone_number"
             android:layout_alignStart="@id/phone_number"
             android:layout_below="@id/phone_number"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:paddingEnd="2dp"
             android:paddingStart="2dp"
             android:text=""
-            android:textColor="@color/fui_errorColor" />
+            android:textColor="@color/fui_errorColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/phone_number"
+            app:layout_constraintTop_toBottomOf="@+id/phone_number" />
 
         <Button
             android:id="@+id/send_code"
             style="@style/FirebaseUI.VerifyPhoneButton"
+            android:layout_width="0dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@id/phone_number_error"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/fui_verify_phone_number"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phone_number_error" />
 
         <TextView
             android:id="@+id/send_sms_tos"
@@ -48,9 +69,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/send_code"
-            android:layout_marginTop="@dimen/fui_field_padding_vert"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:textIsSelectable="false"
-            android:textSize="12sp" />
-    </RelativeLayout>
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/send_code" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="26dp" />
+
+    </android.support.constraint.ConstraintLayout>
 </layout>

@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.databinding.FragmentVerifyPhoneBinding;
@@ -48,6 +50,8 @@ public class VerifyPhoneNumberFragment extends BaseFragment implements View.OnCl
         setUpCountrySpinner();
         setupSendCodeButton();
         setupTerms();
+
+
         return binding.getRoot();
     }
 
@@ -78,6 +82,8 @@ public class VerifyPhoneNumberFragment extends BaseFragment implements View.OnCl
             setPhoneNumber(phoneNumber);
             setCountryCode(phoneNumber);
         }
+
+
     }
 
     @Override
