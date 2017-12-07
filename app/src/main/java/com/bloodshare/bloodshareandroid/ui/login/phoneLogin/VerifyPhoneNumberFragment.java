@@ -87,13 +87,6 @@ public class VerifyPhoneNumberFragment extends BaseFragment implements View.OnCl
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         CountryInfo countryInfo = (CountryInfo) binding.countryList.getTag();
