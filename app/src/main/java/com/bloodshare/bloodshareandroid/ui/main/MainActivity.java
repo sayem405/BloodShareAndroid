@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -37,12 +40,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private static final String EXTRA_USER_ID = "user_id";
 
     private UserProfile userProfile;
+    private MeFragment meFragment;
+    private ExploreFragment exploreFragment;
+    private InterestedFragment interestedFragment;
 
 
     @Override
@@ -61,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerLayout = navigationView.getHeaderView(0);
@@ -116,6 +122,11 @@ public class MainActivity extends AppCompatActivity
 
         final TextView nameTextView = headerLayout.findViewById(R.id.nameTextView);
         final TextView phoneTextView = headerLayout.findViewById(R.id.phoneTextView);
+
+        final BottomNavigationView bottomNavigation = findViewById(R.id.bottomNavigation);
+        bottomNavigation.setOnNavigationItemSelectedListener(this);
+
+        setExploreFragementToContainer();
 
         UserProfileViewModel viewModel = ViewModelProviders.of(this).get(UserProfileViewModel.class);
         viewModel.init(userID);
@@ -181,6 +192,15 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.action_me) {
+            Fragment meFragment = getMeFragment();
+            setFragment(meFragment, null);
+
+        } else if (id == R.id.action_interested) {
+            Fragment interestedFragment = getInterestedFragment();
+            setFragment(interestedFragment, null);
+        } else if (id == R.id.action_discover) {
+            setExploreFragementToContainer();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -188,9 +208,40 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void setExploreFragementToContainer() {
+        Fragment exploreFragment = getExploreFragment();
+        setFragment(exploreFragment, null);
+    }
+
     public static void startActivity(Context context, String userID) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(EXTRA_USER_ID, userID);
         context.startActivity(intent);
+    }
+
+    public MeFragment getMeFragment() {
+        if (meFragment == null) {
+            meFragment = MeFragment.newInstance(null, null);
+        }
+        return meFragment;
+    }
+
+    public InterestedFragment getInterestedFragment() {
+        if (interestedFragment == null) {
+            interestedFragment = InterestedFragment.newInstance(null, null);
+        }
+        return interestedFragment;
+    }
+
+    public ExploreFragment getExploreFragment() {
+        if (exploreFragment == null) {
+            exploreFragment = ExploreFragment.newInstance(null, null);
+        }
+        return exploreFragment;
+    }
+
+    public void setFragment(Fragment fragment, String tag) {
+        FragmentManager ft = getSupportFragmentManager();
+        ft.beginTransaction().replace(R.id.fragmentContainer, fragment, tag).disallowAddToBackStack().commit();
     }
 }
