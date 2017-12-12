@@ -517,7 +517,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
 
     @Override
     public void submitPersonalInfo(String name, String DOB, String bloodGroup, Place place) {
-        Donor donor = new Donor(name, bloodGroup, DateUtil.getDateByFormat(DOB, DateUtil.DATE_FORMAT_1), new DonorLocation(place));
+        Donor donor = new UserProfile(name, bloodGroup, DateUtil.getDateByFormat(DOB, DateUtil.DATE_FORMAT_1), new DonorLocation(place));
         updateUser(donor);
     }
 

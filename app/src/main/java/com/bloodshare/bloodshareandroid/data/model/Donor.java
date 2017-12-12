@@ -22,7 +22,8 @@ public class Donor {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = DBNamesFields.COLUMN_ID)
-    public String id;
+    public String id = UUID.randomUUID().toString();
+    ;
 
     @ColumnInfo(name = DBNamesFields.COLUMN_PHONE_NUMBER)
     public String mobile;
@@ -41,7 +42,6 @@ public class Donor {
 
 
     public Donor() {
-        id = UUID.randomUUID().toString();
     }
 
     @Ignore
