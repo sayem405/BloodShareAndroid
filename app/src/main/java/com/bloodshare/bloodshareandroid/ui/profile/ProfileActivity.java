@@ -25,7 +25,7 @@ import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_PROFIL
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private static final  String TAG = ProfileActivity.class.getSimpleName();
+    private static final String TAG = ProfileActivity.class.getSimpleName();
 
     private String profileID;
     private EditProfileFragment fragment;
@@ -40,6 +40,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         startEditFragement();
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabEditProfile);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void startEditFragement() {
-       fragment = EditProfileFragment.newInstance(profileID);
+        fragment = EditProfileFragment.newInstance(profileID);
         getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
 
     }
@@ -78,12 +85,16 @@ public class ProfileActivity extends AppCompatActivity {
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "profile updated");
+                    ((BloodShareApp) getApplication()).getDb().getAppDao().insert(userProfile);
+                    finish();
+                } else {
+                    Log.e(TAG, " not successful");
                 }
             }
 
             @Override
             public void onFailure(Call<UserProfile> call, Throwable t) {
-
+                Log.e(TAG, t.toString());
             }
         });
     }

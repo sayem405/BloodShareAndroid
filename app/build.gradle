@@ -19,8 +19,8 @@ android {
         applicationId "com.bloodshare.bloodshareandroid"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 6
-        versionName "0.6"
+        versionCode 7
+        versionName "0.7"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -35,6 +35,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 
