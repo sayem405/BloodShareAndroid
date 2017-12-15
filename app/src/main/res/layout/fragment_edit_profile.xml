@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:editable="false"
                 android:inputType="none"
-                android:text="@{userProfile.donorLocation.location}" />
+                android:text="@{userProfile.location.name}" />
         </android.support.design.widget.TextInputLayout>
 
         <ImageButton
