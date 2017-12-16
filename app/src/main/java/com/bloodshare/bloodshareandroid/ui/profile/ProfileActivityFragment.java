@@ -10,11 +10,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 import com.bloodshare.bloodshareandroid.databinding.FragmentProfileBinding;
-import com.bloodshare.bloodshareandroid.viewmodel.UserProfileViewModel;
+import com.bloodshare.bloodshareandroid.viewholder.UserProfileViewModel;
 
 import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_PROFILE_ID;
 

@@ -17,7 +17,7 @@ import java.util.UUID;
  * Created by sayem on 9/23/2017.
  */
 
-public class   Donor {
+public class Donor {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = DBNamesFields.COLUMN_ID)
@@ -34,21 +34,18 @@ public class   Donor {
     public String bloodGroup;
 
     @SerializedName(value = SerializedNameFields.LOCATION)
-    @Embedded(prefix = DBNamesFields.PREF_LOCATION)
-    public Location location;
+    @Embedded(prefix = DBNamesFields.COLUMN_LOCATION)
+    public DonorLocation location;
 
     @ColumnInfo(name = DBNamesFields.COLUMN_DOB)
     public Date birthDate;
-
-    @ColumnInfo(name = DBNamesFields.COLUMN_GENDER)
-    public int gender;
 
 
     public Donor() {
     }
 
     @Ignore
-    public Donor(String mobile, String name, String bloodGroup, Location location) {
+    public Donor(String mobile, String name, String bloodGroup, DonorLocation location) {
         this.mobile = mobile;
         this.name = name;
         this.bloodGroup = bloodGroup;
@@ -56,7 +53,7 @@ public class   Donor {
     }
 
     @Ignore
-    public Donor(String name, String bloodGroup, Date dob, Location location) {
+    public Donor(String name, String bloodGroup, Date dob, DonorLocation location) {
         this.name = name;
         this.bloodGroup = bloodGroup;
         this.location = location;

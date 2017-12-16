@@ -1,12 +1,12 @@
-package com.bloodshare.bloodshareandroid.viewmodel;
+package com.bloodshare.bloodshareandroid.viewholder;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 
-import com.bloodshare.bloodshareandroid.data.AppRepository;
+import com.bloodshare.bloodshareandroid.AppRepository;
 import com.bloodshare.bloodshareandroid.BloodShareApp;
-import com.bloodshare.bloodshareandroid.data.model.Location;
+import com.bloodshare.bloodshareandroid.data.model.DonorLocation;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 
 /**
@@ -16,7 +16,7 @@ import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 public class UserProfileViewModel extends AndroidViewModel {
     private LiveData<UserProfile> user;
     private AppRepository appRepository;
-    private Location location;
+    private DonorLocation location;
 
     public UserProfileViewModel(Application application) {
         super(application);
@@ -36,12 +36,12 @@ public class UserProfileViewModel extends AndroidViewModel {
     }
 
 
-    public void setLocation(Location location) {
+    public void setLocation(DonorLocation location) {
         if (this.location != null && this.location.name.equals(location.name)) return;
         this.location = location;
     }
 
-    public Location getLocation() {
+    public DonorLocation getLocation() {
         return location;
     }
 }
