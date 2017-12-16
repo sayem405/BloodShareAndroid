@@ -1,4 +1,4 @@
-package com.bloodshare.bloodshareandroid.data;
+package com.bloodshare.bloodshareandroid;
 
 /**
  * Created by sayem on 9/23/2017.
