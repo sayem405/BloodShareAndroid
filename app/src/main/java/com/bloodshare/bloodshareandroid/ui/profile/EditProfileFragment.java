@@ -16,11 +16,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.bloodshare.bloodshareandroid.R;
-import com.bloodshare.bloodshareandroid.data.model.DonorLocation;
+import com.bloodshare.bloodshareandroid.data.model.Location;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 import com.bloodshare.bloodshareandroid.databinding.FragmentEditProfileBinding;
 import com.bloodshare.bloodshareandroid.ui.common.CustomDatePicker;
-import com.bloodshare.bloodshareandroid.viewholder.UserProfileViewModel;
+import com.bloodshare.bloodshareandroid.viewmodel.UserProfileViewModel;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -166,7 +166,7 @@ public class EditProfileFragment extends Fragment {
         return userProfile;
     }
 
-    private DonorLocation getLocation() {
+    private Location getLocation() {
         return viewModel.getLocation();
     }
 
@@ -176,7 +176,7 @@ public class EditProfileFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(getActivity(), data);
                 if (place != null) {
-                    viewModel.setLocation(new DonorLocation(place));
+                    viewModel.setLocation(new Location(place));
                     binding.locationEditText.setText(place.getName());
                 } else {
 
