@@ -139,7 +139,14 @@
         <item>AB+ve</item>
         <item>AB-ve</item>
     </string-array>
-    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_profile">Update Profile</string>
     <string name="update">Update</string>
     <string name="error_give_location">give location</string>
+    <string name="discover">Discover</string>
+    <string name="explore">Explore</string>
+    <string name="me">Me</string>
+    <string name="interested">Interested</string>
+    <string name="ask_for_blood">Ask For Blood</string>
+    <string name="see_blood_requests">See Blood Requests</string>
+    <string name="location">Location</string>
 </resources>
