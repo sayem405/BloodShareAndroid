@@ -34,8 +34,8 @@ public class Donor {
     public String bloodGroup;
 
     @SerializedName(value = SerializedNameFields.LOCATION)
-    @Embedded(prefix = DBNamesFields.COLUMN_LOCATION)
-    public DonorLocation location;
+    @Embedded(prefix = DBNamesFields.PREF_LOCATION)
+    public Location location;
 
     @ColumnInfo(name = DBNamesFields.COLUMN_DOB)
     public Date birthDate;
@@ -45,7 +45,7 @@ public class Donor {
     }
 
     @Ignore
-    public Donor(String mobile, String name, String bloodGroup, DonorLocation location) {
+    public Donor(String mobile, String name, String bloodGroup, Location location) {
         this.mobile = mobile;
         this.name = name;
         this.bloodGroup = bloodGroup;
@@ -53,7 +53,7 @@ public class Donor {
     }
 
     @Ignore
-    public Donor(String name, String bloodGroup, Date dob, DonorLocation location) {
+    public Donor(String name, String bloodGroup, Date dob, Location location) {
         this.name = name;
         this.bloodGroup = bloodGroup;
         this.location = location;

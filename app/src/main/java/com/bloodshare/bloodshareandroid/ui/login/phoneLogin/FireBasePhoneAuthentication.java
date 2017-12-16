@@ -20,7 +20,7 @@ import com.bloodshare.bloodshareandroid.BloodShareApp;
 import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.data.model.ApiAuthentication;
 import com.bloodshare.bloodshareandroid.data.model.Donor;
-import com.bloodshare.bloodshareandroid.data.model.DonorLocation;
+import com.bloodshare.bloodshareandroid.data.model.Location;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 import com.bloodshare.bloodshareandroid.data.network.ApiClient;
 import com.bloodshare.bloodshareandroid.data.network.WebServiceCall;
@@ -517,7 +517,7 @@ public class FireBasePhoneAuthentication extends BaseActivity implements PhoneVe
 
     @Override
     public void submitPersonalInfo(String name, String DOB, String bloodGroup, Place place) {
-        Donor donor = new UserProfile(name, bloodGroup, DateUtil.getDateByFormat(DOB, DateUtil.DATE_FORMAT_1), new DonorLocation(place));
+        Donor donor = new UserProfile(name, bloodGroup, DateUtil.getDateByFormat(DOB, DateUtil.DATE_FORMAT_1), new Location(place));
         updateUser(donor);
     }
 

@@ -6,7 +6,7 @@ import android.arch.lifecycle.LiveData;
 
 import com.bloodshare.bloodshareandroid.AppRepository;
 import com.bloodshare.bloodshareandroid.BloodShareApp;
-import com.bloodshare.bloodshareandroid.data.model.DonorLocation;
+import com.bloodshare.bloodshareandroid.data.model.Location;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 
 /**
@@ -16,7 +16,7 @@ import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 public class UserProfileViewModel extends AndroidViewModel {
     private LiveData<UserProfile> user;
     private AppRepository appRepository;
-    private DonorLocation location;
+    private Location location;
 
     public UserProfileViewModel(Application application) {
         super(application);
@@ -36,12 +36,12 @@ public class UserProfileViewModel extends AndroidViewModel {
     }
 
 
-    public void setLocation(DonorLocation location) {
+    public void setLocation(Location location) {
         if (this.location != null && this.location.name.equals(location.name)) return;
         this.location = location;
     }
 
-    public DonorLocation getLocation() {
+    public Location getLocation() {
         return location;
     }
 }

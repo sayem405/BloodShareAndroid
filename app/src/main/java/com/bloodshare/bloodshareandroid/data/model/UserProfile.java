@@ -19,7 +19,7 @@ public class UserProfile extends Donor {
     }
 
     @Ignore
-    public UserProfile(String name, String bloodGroup, Date dob, DonorLocation donorLocation) {
-        super(name, bloodGroup, dob, donorLocation);
+    public UserProfile(String name, String bloodGroup, Date dob, Location location) {
+        super(name, bloodGroup, dob, location);
     }
 }
