@@ -122,7 +122,7 @@ public class EditProfileFragment extends Fragment {
         viewModel.getUser().observe(this, new Observer<UserProfile>() {
             @Override
             public void onChanged(@Nullable UserProfile userProfile) {
-                viewModel.setLocation(userProfile.donorLocation);
+                viewModel.setLocation(userProfile.location);
                 EditProfileFragment.this.userProfile = userProfile;
                 binding.setUserProfile(userProfile);
                 //binding.spinner.setSelection(;
@@ -162,7 +162,7 @@ public class EditProfileFragment extends Fragment {
         userProfile.name = binding.nameEditText.getText().toString();
         userProfile.bloodGroup = getResources().getStringArray(R.array.blood_groups)[binding.spinner.getSelectedItemPosition()];
         userProfile.birthDate = DateUtil.getDateByFormat(binding.dobEditText.getText().toString(), DateUtil.DATE_FORMAT_1);
-        userProfile.donorLocation = getLocation();
+        userProfile.location = getLocation();
         return userProfile;
     }
 
