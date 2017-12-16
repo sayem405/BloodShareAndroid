@@ -7,7 +7,7 @@ import android.arch.persistence.room.Ignore;
 import com.bloodshare.bloodshareandroid.data.db.DBNamesFields;
 import com.google.android.gms.location.places.Place;
 
-public class DonorLocation {
+public class Location {
 
     @ColumnInfo(name = DBNamesFields.COLUMN_LATITUDE)
     public double latitude;
@@ -18,11 +18,11 @@ public class DonorLocation {
     @ColumnInfo(name = DBNamesFields.COLUMN_NAME)
     public String name;
 
-    public DonorLocation() {
+    public Location() {
     }
 
     @Ignore
-    public DonorLocation(Place place) {
+    public Location(Place place) {
         this.name = place.getName().toString();
         this.latitude = place.getLatLng().latitude;
         this.longitude = place.getLatLng().longitude;
