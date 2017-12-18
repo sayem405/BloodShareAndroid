@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_PROFILE_ID;
+import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_USER_ID;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -36,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        profileID = getIntent().getStringExtra(EXTRA_PROFILE_ID);
+        profileID = getIntent().getStringExtra(EXTRA_USER_ID);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,7 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public static void startActivity(Context context, String profileId) {
         Intent intent = new Intent(context, ProfileActivity.class);
-        intent.putExtra(EXTRA_PROFILE_ID, profileId);
+        intent.putExtra(EXTRA_USER_ID, profileId);
         context.startActivity(intent);
     }
 

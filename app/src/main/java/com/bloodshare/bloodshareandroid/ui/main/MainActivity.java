@@ -35,6 +35,7 @@ import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 import com.bloodshare.bloodshareandroid.data.network.ApiClient;
 import com.bloodshare.bloodshareandroid.data.network.WebServiceCall;
 import com.bloodshare.bloodshareandroid.ui.login.LoginActivity;
+import com.bloodshare.bloodshareandroid.ui.post.BloodSeekActivity;
 import com.bloodshare.bloodshareandroid.ui.profile.ProfileActivity;
 import com.bloodshare.bloodshareandroid.utils.SPKeys;
 import com.bloodshare.bloodshareandroid.viewholder.UserProfileViewModel;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private static final String EXTRA_USER_ID = "user_id";
+    private static final int REQUEST_CODE_BLOOD_SEEK = 101;
 
     private UserProfile userProfile;
     private MeFragment meFragment;
@@ -123,6 +125,8 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        findViewById(R.id.seekBlood).setOnClickListener(view -> seekBlood(userID));
 
         final TextView nameTextView = headerLayout.findViewById(R.id.nameTextView);
         final TextView phoneTextView = headerLayout.findViewById(R.id.phoneTextView);
@@ -247,5 +251,9 @@ public class MainActivity extends AppCompatActivity
     public void setFragment(Fragment fragment, String tag) {
         FragmentManager ft = getSupportFragmentManager();
         ft.beginTransaction().replace(R.id.fragmentContainer, fragment, tag).disallowAddToBackStack().commit();
+    }
+
+    private void seekBlood(String usedId) {
+        BloodSeekActivity.startActivityForResult(this, usedId, REQUEST_CODE_BLOOD_SEEK);
     }
 }

@@ -6,7 +6,7 @@ package com.bloodshare.bloodshareandroid.utils;
 
 public class ExtraConstants {
     public static final String EXTRA_PHONE = "extra_phone_number";
-    public static final String EXTRA_PROFILE_ID = "extra_profile_id";
+    public static final String EXTRA_USER_ID = "extra_profile_id";
     public static final String EXTRA_FA_ID = "extra_fam_id";
     public static final String EXTRA_LOCALE = "locale";
     public static final String EXTRA_COUNTRY_CODE = "country_code";

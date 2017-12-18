@@ -28,7 +28,7 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.jokerlab.jokerstool.DateUtil;
 
 import static android.app.Activity.RESULT_OK;
-import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_PROFILE_ID;
+import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_USER_ID;
 
 public class EditProfileFragment extends Fragment {
 
@@ -47,7 +47,7 @@ public class EditProfileFragment extends Fragment {
     public static EditProfileFragment newInstance(@NonNull String userID) {
         EditProfileFragment fragment = new EditProfileFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(EXTRA_PROFILE_ID, userID);
+        bundle.putString(EXTRA_USER_ID, userID);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -56,7 +56,7 @@ public class EditProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            profileID = getArguments().getString(EXTRA_PROFILE_ID);
+            profileID = getArguments().getString(EXTRA_USER_ID);
         }
 
     }

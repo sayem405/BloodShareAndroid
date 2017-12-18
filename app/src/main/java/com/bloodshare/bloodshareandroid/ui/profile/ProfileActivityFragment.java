@@ -10,14 +10,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.bloodshare.bloodshareandroid.R;
 import com.bloodshare.bloodshareandroid.data.model.UserProfile;
 import com.bloodshare.bloodshareandroid.databinding.FragmentProfileBinding;
 import com.bloodshare.bloodshareandroid.viewholder.UserProfileViewModel;
 
-import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_PROFILE_ID;
+import static com.bloodshare.bloodshareandroid.utils.ExtraConstants.EXTRA_USER_ID;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -31,7 +30,7 @@ public class ProfileActivityFragment extends Fragment {
     public static ProfileActivityFragment newInstance(@NonNull String userID) {
         ProfileActivityFragment fragment = new ProfileActivityFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(EXTRA_PROFILE_ID, userID);
+        bundle.putString(EXTRA_USER_ID, userID);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -42,7 +41,7 @@ public class ProfileActivityFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        profileID = getArguments().getString(EXTRA_PROFILE_ID);
+        profileID = getArguments().getString(EXTRA_USER_ID);
     }
 
     @Override
