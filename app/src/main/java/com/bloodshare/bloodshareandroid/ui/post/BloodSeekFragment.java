@@ -1,14 +1,17 @@
 package com.bloodshare.bloodshareandroid.ui.post;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.bloodshare.bloodshareandroid.R;
+import com.bloodshare.bloodshareandroid.databinding.FragmentBloodSeekBinding;
 import com.bloodshare.bloodshareandroid.ui.base.BaseFragment;
 
 public class BloodSeekFragment extends BaseFragment {
@@ -18,6 +21,7 @@ public class BloodSeekFragment extends BaseFragment {
     private String mParam1;
     private String mParam2;
 
+    private FragmentBloodSeekBinding binding;
     private OnFragmentInteractionListener mListener;
 
     public BloodSeekFragment() {
@@ -45,7 +49,16 @@ public class BloodSeekFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_blood_seek, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_blood_seek, container, false);
+        setUpGroupSpinner();
+        return binding.getRoot();
+    }
+
+    private void setUpGroupSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.blood_groups, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.bloodSpinner2.setAdapter(adapter);
     }
 
     public void onButtonPressed(Uri uri) {

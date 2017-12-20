@@ -149,4 +149,9 @@
     <string name="ask_for_blood">Ask For Blood</string>
     <string name="see_blood_requests">See Blood Requests</string>
     <string name="location">Location</string>
+    <string name="hospital_location">Hospital Location</string>
+    <string name="hospital_name">Hospital Name</string>
+    <string name="blood_quantity">Blood Quantity</string>
+    <string name="title_when_blood_need">When do you need blood?</string>
+    <string name="seek">Seek</string>
 </resources>
